@@ -18,7 +18,7 @@ namespace TemplateApp.Domain.Models
         [EmailAddress]
         public string From { get; set; } = "nguyenvantien0620@gmail.com";
 
-        public string FromName { get; set; } = "System";
+        public string FromName { get; set; } = "Nguyen Van Tien";
 
         [EmailAddress]
         public string To { get; set; } = "";

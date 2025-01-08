@@ -24,9 +24,9 @@ namespace TemplateApp.Application.Services.EmailSender
             var msg = MailHelper.CreateSingleEmail(email.FromEmailAddress(), email.ToEmailAddress(), email.Subject, email.Body, email.BodyHtml);
             try
             {
-                await client.SendEmailAsync(msg);
+                var result = await client.SendEmailAsync(msg);
 
-                return new Result<bool>().SetSuccess(true);
+                return new Result<bool>().SetSuccess(result.IsSuccessStatusCode);
             }
             catch (Exception ex) 
             {

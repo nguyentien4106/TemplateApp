@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using System.Text;
+using TemplateApp.Domain.Constants;
 using TemplateApp.Domain.DTOs.Account;
 using TemplateApp.Domain.Models;
 
@@ -13,9 +14,10 @@ namespace TemplateApp.Application.Services.Account
             {
                 UserName = request.Email,
                 Email = request.Email,
-
             };
+            
             var result = await userManager.CreateAsync(user, request.Password);
+            await userManager.AddToRoleAsync(user, Roles.User);
             if (result.Succeeded)
             {
                 return new Result<AccountDTO>().SetSuccess(request);

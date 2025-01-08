@@ -1,0 +1,22 @@
+version: '3'
+
+services:
+  postgres:
+    image: postgres:16.2
+    container_name: postgresql
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=1
+    ports:
+      - "5432:5432"
+    restart: always
+
+  pgadmin4:
+    image: dpage/pgadmin4
+    depends_on:
+      - postgres
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=nguyenvantien0620@gmail.com
+      - PGADMIN_DEFAULT_PASSWORD=Ti100600@
+    ports:
+      - "5050:80"

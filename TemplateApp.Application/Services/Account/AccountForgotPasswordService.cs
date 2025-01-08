@@ -28,7 +28,8 @@ namespace TemplateApp.Application.Services.Account
                 To = user.Email,
                 ToName = user.UserName,
                 Subject = "Reset your password!",
-                BodyHtml = emailHtml.Replace("[LINK]", resetLink),
+                // BodyHtml = emailHtml.Replace("[LINK]", resetLink).Replace("[EMAIL]", user.Email),
+                Body = "Hello World!",
             };
 
             return await emailSender.SendEmailAsync(e);
