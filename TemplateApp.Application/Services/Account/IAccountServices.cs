@@ -5,7 +5,7 @@ namespace TemplateApp.Application.Services.Account
 {
     public interface IAccountServices
     {
-        bool Login(AccountDTO dto);
+        Task<Result<AccountTokenDTO>> Login(AccountDTO dto);
 
         Task<Result<AccountDTO>> Register(AccountDTO dto);
     }
