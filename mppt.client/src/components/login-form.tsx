@@ -10,12 +10,19 @@ import {
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { useNavigate } from "react-router-dom"
+import accountApis from "@/apis/account";
 
 export function LoginForm({
   className,
   ...props
 }: React.ComponentPropsWithoutRef<"div">) {
   const navigate = useNavigate()
+
+  const handleLogin = async () => {
+    accountApis.login({ email: 'nguyenvantien0620@gmail.com', password: 'Ti100600@', userName: 'nguyentien0620'}).then(res => {
+        console.log(res)
+    })
+  }
 
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
@@ -50,18 +57,12 @@ export function LoginForm({
                 </div>
                 <Input id="password" type="password" required />
               </div>
-              <Button type="submit" className="w-full" onClick={() => navigate("/dashboard")}>
+              <Button type="submit" className="w-full" onClick={handleLogin}>
                 Login
               </Button>
-              <Button variant="outline" className="w-full">
+              <Button variant="outline" className="w-full" disabled>
                 Login with Google
               </Button>
-            </div>
-            <div className="mt-4 text-center text-sm">
-              Don&apos;t have an account?{" "}
-              <a href="#" className="underline underline-offset-4">
-                Sign up
-              </a>
             </div>
           </form>
         </CardContent>

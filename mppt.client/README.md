@@ -48,3 +48,5 @@ export default tseslint.config({
   },
 })
 ```
+
+docker run -itd -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=1 -p 5432:5432 --name postgresql postgres:16.2
