@@ -41,6 +41,12 @@ namespace TemplateApp.API.Controllers
         }
 
         [HttpPost]
+        public async Task<Result<bool>> ResetPassword(ResetPasswordModel model)
+        {
+            return await services.ResetPasswordAsync(model);
+        }
+
+        [HttpPost]
         [Authorize]
         public string Profile()
         {

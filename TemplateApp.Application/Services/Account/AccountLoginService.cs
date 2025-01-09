@@ -17,17 +17,32 @@ namespace TemplateApp.Application.Services.Account
             if (user == null)
             {
 
-                return new Result<AccountTokenDTO>().SetError("Email not found", new());
+                return Result<AccountTokenDTO>.NotFound("The email given was not found in system! Please try again.");
             }
 
-            var result = await signInManager.CheckPasswordSignInAsync(user, request.Password, true);
+            var result = await signInManager.PasswordSignInAsync(user, request.Password, true, true);
             if (result.Succeeded)
             {
                 var token = await GenerateUserToken(user);
                 return new Result<AccountTokenDTO>().SetSuccess(token);
             }
 
-            return new Result<AccountTokenDTO>().SetError(result.ToString(), new());
+            if (result.IsLockedOut) 
+            {
+                return Result<AccountTokenDTO>.Failed("Your account has been locked out");
+            }
+
+            if (result.IsNotAllowed)
+            {
+                return Result<AccountTokenDTO>.Failed("Your account hasn't been allowed");
+            }
+
+            if (result.RequiresTwoFactor)
+            {
+                return Result<AccountTokenDTO>.Failed("Your account didn't turn the two factor on! Please turn 2FA on first.");
+            }
+
+            return new Result<AccountTokenDTO>().SetError("Password was incorrect! Please try again.", new());
         }
     }
 }
