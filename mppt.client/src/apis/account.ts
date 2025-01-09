@@ -1,10 +1,11 @@
 import apiClient from '@/configs/apiClient';
 import { User, AuthToken } from '@/types/account';
+import { Result } from '@/types/common';
 
 const accountApis = {
-    login(params?: User) {
+    async login(params?: User) {
         const url = 'Account/Login';
-        return apiClient.post<AuthToken>(url, { ...params });
+        return apiClient.post<Result<AuthToken>>(url, { ...params }).then(result => result.data);
     },
 
 };

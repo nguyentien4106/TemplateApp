@@ -7,8 +7,8 @@ const router = [
         path: '/',
         element: <AppLayout></AppLayout>,
         errorElement: <ErrorPage></ErrorPage>,
-        children: [...accountRoutes]
     },
+    ...accountRoutes
 ]
 
 export default router;

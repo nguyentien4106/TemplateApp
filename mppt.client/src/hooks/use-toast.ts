@@ -7,6 +7,7 @@ import type {
   ToastActionElement,
   ToastProps,
 } from "@/components/ui/toast"
+import { cn } from "@/lib/utils"
 
 const TOAST_LIMIT = 1
 const TOAST_REMOVE_DELAY = 1000000
@@ -171,6 +172,37 @@ function toast({ ...props }: Toast) {
   }
 }
 
+function error({ ...props }: Toast) {
+    const id = genId()
+  
+    const update = (props: ToasterToast) =>
+      dispatch({
+        type: "UPDATE_TOAST",
+        toast: { ...props, id, className: 'top-0 right-0 flex fixed md:max-w-[420px] md:top-4 md:right-4 bg-red-200', variant: 'default'},
+      })
+    const dismiss = () => dispatch({ type: "DISMISS_TOAST", toastId: id })
+  
+    dispatch({
+      type: "ADD_TOAST",
+      toast: {
+        ...props,
+        id,
+        open: true,
+        onOpenChange: (open) => {
+          if (!open) dismiss()
+        },
+        className: 'top-0 right-0 flex fixed md:max-w-[420px] md:top-4 md:right-4 bg-red-200', 
+        variant: 'default',
+      },
+    })
+  
+    return {
+      id: id,
+      dismiss,
+      update,
+    }
+  }
+
 function useToast() {
   const [state, setState] = React.useState<State>(memoryState)
 
@@ -188,6 +220,7 @@ function useToast() {
     ...state,
     toast,
     dismiss: (toastId?: string) => dispatch({ type: "DISMISS_TOAST", toastId }),
+    error
   }
 }
 
