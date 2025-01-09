@@ -2,7 +2,7 @@ import { HTMLAttributes, useState } from 'react'
 import { z } from 'zod'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { IconBrandFacebook, IconBrandGithub } from '@tabler/icons-react'
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
@@ -19,6 +19,10 @@ import { PasswordInput } from '@/components/password-input'
 import accountApis from '@/apis/account'
 import { useToast } from '@/hooks/use-toast'
 import ErrorMessage from '@/components/error-message'
+import Cookies from 'js-cookie'
+import { COOKIE_REFRESH_TOKEN_KEY, COOKIE_TOKEN_KEY } from '@/constants/cookie'
+import { Loader, Loader2 } from 'lucide-react'
+import { useLoading } from '@/hooks/use-loading'
 
 type UserAuthFormProps = HTMLAttributes<HTMLDivElement>
 
@@ -39,8 +43,9 @@ const formSchema = z.object({
 
 export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
     const [isLoading, setIsLoading] = useState(false)
-    const { error, toast } = useToast()
-
+    const { error } = useToast()
+    const navigate = useNavigate()
+    const loading = useLoading()
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
@@ -50,6 +55,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
     })
 
     function onSubmit(data: z.infer<typeof formSchema>) {
+        loading.show("")
         accountApis.login({ email: data.email, password: data.password }).then(res => {
             if(!res.succeed){
                 error({
@@ -57,9 +63,10 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
                 })
                 return
             }
-
-
-
+            Cookies.set(COOKIE_TOKEN_KEY, res.data.accessToken, { expires: 0.5 })
+            Cookies.set(COOKIE_REFRESH_TOKEN_KEY, res.data.refreshToken, { expires: 1 })
+            loading.hide()
+            navigate("/")
         })
     }
 

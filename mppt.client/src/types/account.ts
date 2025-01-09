@@ -4,6 +4,6 @@ export interface User {
 }
 
 export interface AuthToken {
-    token: string,
-    refreshToken: number
+    accessToken: string,
+    refreshToken: string
 }
