@@ -15,12 +15,12 @@ namespace TemplateApp.Application.Services.Account
         public async Task<Result<AccountTokenDTO>> RefreshTokenAsync(AccountTokenDTO request)
         {
             var principal = TokenUtils.GetPrincipalFromExpiredToken(jwt, request.AccessToken);
-            if (principal == null || principal.FindFirst("UserName")?.Value == null)
+            if (principal == null || principal.FindFirst(UserName)?.Value == null)
             {
                 return new Result<AccountTokenDTO>().SetError("User with Email given was not found.", new());
             }
 
-            var user = await userManager.FindByNameAsync(principal.FindFirst("UserName")?.Value ?? "");
+            var user = await userManager.FindByNameAsync(principal.FindFirst(UserName)?.Value ?? "");
             if (user == null)
             {
                 return new Result<AccountTokenDTO>().SetError("User with Email given was not found.", new());

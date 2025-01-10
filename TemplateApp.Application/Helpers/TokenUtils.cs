@@ -20,8 +20,9 @@ namespace TemplateApp.Application.Helpers
 
             var userClaims = new List<Claim>
             {
-                new("Id", user.Id.ToString()),
-                new ("UserName", user.UserName??"")
+                new("id", user.Id.ToString()),
+                new ("userName", user.UserName ?? ""),
+                new("email", user.Email ?? "")
             };
             userClaims.AddRange(roleClaims);
             var tokeOptions = new JwtSecurityToken(

@@ -1,10 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TemplateApp.Domain.DTOs.Account;
+﻿using TemplateApp.Domain.DTOs.Account;
 using TemplateApp.Domain.Models;
 
 namespace TemplateApp.Application.Services.Account
@@ -16,7 +10,6 @@ namespace TemplateApp.Application.Services.Account
             var user = await userManager.FindByEmailAsync(request.Email);
             if (user == null)
             {
-
                 return Result<AccountTokenDTO>.NotFound("The email given was not found in system! Please try again.");
             }
 
@@ -42,7 +35,7 @@ namespace TemplateApp.Application.Services.Account
                 return Result<AccountTokenDTO>.Failed("Your account didn't turn the two factor on! Please turn 2FA on first.");
             }
 
-            return new Result<AccountTokenDTO>().SetError("Password was incorrect! Please try again.", new());
+            return Result<AccountTokenDTO>.Failed("Password was incorrect! Please try again.");
         }
     }
 }

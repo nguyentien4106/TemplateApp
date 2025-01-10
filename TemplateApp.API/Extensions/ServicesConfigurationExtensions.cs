@@ -17,16 +17,7 @@ namespace TemplateApp.API.Extensions
             services.AddControllers();
             services.AddEndpointsApiExplorer();
             services.AddSwaggerGen();
-            services.AddCors(options =>
-            {
-                options.AddPolicy("clientPolicy", builder =>
-                {
-                    builder.AllowAnyHeader()
-                    .AllowAnyMethod()
-                    .WithOrigins("http://localhost:5173")
-                    .AllowCredentials();
-                });
-            });
+
             services.AddScoped<AppDbContextInitializer>();
 
             return services;
@@ -78,6 +69,17 @@ namespace TemplateApp.API.Extensions
                             ClockSkew = TimeSpan.FromSeconds(0)
                         };
                     });
+
+            services.AddCors(options =>
+            {
+                options.AddPolicy("clientPolicy", builder =>
+                {
+                    builder.AllowAnyHeader()
+                    .AllowAnyMethod()
+                    .WithOrigins(jwtSettings.Audience)
+                    .AllowCredentials();
+                });
+            });
 
             services.AddSingleton(jwtSettings);
             services.AddSingleton(sendGrid);

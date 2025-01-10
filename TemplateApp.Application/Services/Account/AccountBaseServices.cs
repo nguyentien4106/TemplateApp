@@ -21,6 +21,9 @@ namespace TemplateApp.Application.Services.Account
             IHostingEnvironment environment
         )
     {
+        private string UserName = "userName";
+        private string Email = "email";
+
         private async Task<AccountTokenDTO> GenerateUserToken(IdentityUser user)
         {
             var claims = (from ur in context.UserRoles

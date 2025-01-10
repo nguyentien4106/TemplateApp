@@ -15,7 +15,7 @@ namespace TemplateApp.Application.Services.Account
             var user = await userManager.FindByEmailAsync(email);
             if (user == null)
             {
-                return new Result<bool>().SetError("Email not found !", new());
+                return new Result<bool>().SetError("The user with email given was not found!", new());
             }
 
             var token = await userManager.GeneratePasswordResetTokenAsync(user);
