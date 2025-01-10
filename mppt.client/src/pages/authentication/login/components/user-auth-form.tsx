@@ -1,4 +1,4 @@
-import { HTMLAttributes, useState } from 'react'
+import { HTMLAttributes } from 'react'
 import { z } from 'zod'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -19,10 +19,10 @@ import { PasswordInput } from '@/components/password-input'
 import accountApis from '@/apis/account'
 import { useToast } from '@/hooks/use-toast'
 import ErrorMessage from '@/components/error-message'
-import Cookies from 'js-cookie'
-import { COOKIE_REFRESH_TOKEN_KEY, COOKIE_TOKEN_KEY } from '@/constants/cookie'
-import { Loader, Loader2 } from 'lucide-react'
 import { useLoading } from '@/hooks/use-loading'
+import { jwtDecode } from 'jwt-decode';
+import { useAccountStore } from '@/stores/accountStore'
+import { AuthUser } from '@/types/layout/common'
 
 type UserAuthFormProps = HTMLAttributes<HTMLDivElement>
 
@@ -42,7 +42,6 @@ const formSchema = z.object({
 })
 
 export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
-    const [isLoading, setIsLoading] = useState(false)
     const { error } = useToast()
     const navigate = useNavigate()
     const loading = useLoading()
@@ -57,16 +56,19 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
     function onSubmit(data: z.infer<typeof formSchema>) {
         loading.show("")
         accountApis.login({ email: data.email, password: data.password }).then(res => {
+            loading.hide()
+
             if(!res.succeed){
                 error({
                     description: <ErrorMessage message={res.message} />,
                 })
                 return
             }
-            Cookies.set(COOKIE_TOKEN_KEY, res.data.accessToken, { expires: 0.5 })
-            Cookies.set(COOKIE_REFRESH_TOKEN_KEY, res.data.refreshToken, { expires: 1 })
-            loading.hide()
-            navigate("/")
+            console.log('user', jwtDecode<AuthUser>(res.data.accessToken))
+            useAccountStore.getState().auth.setAccessToken(res.data.accessToken)
+            useAccountStore.getState().auth.setRefreshToken(res.data.refreshToken)
+            useAccountStore.getState().auth.setUser(jwtDecode<AuthUser>(res.data.accessToken))
+            // navigate("/")
         })
     }
 
@@ -109,10 +111,10 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
                                 </FormItem>
                             )}
                         />
-                        <Button className='mt-2' disabled={isLoading}>
+                        <Button className='mt-2' disabled={loading.isLoading}>
                             Login
                         </Button>
-                        <Button className='mt-2' disabled={isLoading} variant={'outline'}>
+                        <Button className='mt-2' disabled={loading.isLoading} variant={'outline'}>
                             <Link to={'/sign-up'}>Sign Up</Link>
                         </Button>
                         <div className='relative my-2'>
@@ -131,7 +133,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
                                 variant='outline'
                                 className='w-full'
                                 type='button'
-                                disabled={isLoading}
+                                disabled={loading.isLoading}
                             >
                                 <IconBrandGithub className='h-4 w-4' /> GitHub
                             </Button>
@@ -139,7 +141,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
                                 variant='outline'
                                 className='w-full'
                                 type='button'
-                                disabled={isLoading}
+                                disabled={loading.isLoading}
                             >
                                 <IconBrandFacebook className='h-4 w-4' /> Facebook
                             </Button>

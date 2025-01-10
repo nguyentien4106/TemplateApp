@@ -15,6 +15,7 @@ import {
 } from "@/components/ui/sidebar"
 import { Toaster } from "@/components/ui/toaster"
 import { Outlet } from "react-router-dom"
+
 export default function AppLayout() {
     return (
         <>

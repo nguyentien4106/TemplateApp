@@ -1,8 +1,4 @@
-import { BrowserRouter, Routes, Route, RouterProvider, createBrowserRouter } from 'react-router-dom';
-import AppLayout from './layouts/AppLayout';
-import Home from './pages/home/page';
-import Authentication from './pages/authentication/page'
-import DashBoard from './pages/dashboard/page'
+import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import router from './routes';
 import { Toaster } from './components/ui/toaster';
 import { LoadingProvider } from './contexts/loading-providers'
