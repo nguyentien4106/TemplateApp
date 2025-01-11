@@ -1,9 +1,9 @@
 ﻿using TemplateApp.Domain.DTOs.Account;
 using TemplateApp.Domain.Models;
 
-namespace TemplateApp.Application.Services.Account
+namespace TemplateApp.Application.Services.Auth
 {
-    public partial class AccountBaseServices
+    public partial class AuthBaseServices
     {
         public async Task<Result<AccountTokenDTO>> LoginAsync(AccountDTO request)
         {

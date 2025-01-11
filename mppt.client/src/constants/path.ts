@@ -1,7 +1,7 @@
-export const ACCOUNT_PATH = {
-    LOGIN: 'Account/Login',
-    REGISTER: 'Account/Register',
-    FORGOT_PASSWORD: 'Account/ForgotPassword',
-    RESET_PASSWORD: 'Account/ResetPassword',
-    LOGOUT: 'Account/Logout'
+export const AUTH_PATH = {
+    LOGIN: 'Auth/Login',
+    REGISTER: 'Auth/Register',
+    FORGOT_PASSWORD: 'Auth/ForgotPassword',
+    RESET_PASSWORD: 'Auth/ResetPassword',
+    LOGOUT: 'Auth/Logout'
 }

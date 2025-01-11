@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.WebUtilities;
 using TemplateApp.Domain.Models;
 
-namespace TemplateApp.Application.Services.Account
+namespace TemplateApp.Application.Services.Auth
 {
-    public partial class AccountBaseServices
+    public partial class AuthBaseServices
     {
         public async Task<Result<bool>> ForgotPasswordAsync(string email)
         {

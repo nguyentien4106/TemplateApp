@@ -1,12 +1,12 @@
-﻿using Microsoft.AspNetCore.Identity;
-using System.Text;
+﻿using System.Text;
+using Microsoft.AspNetCore.Identity;
 using TemplateApp.Domain.Constants;
 using TemplateApp.Domain.DTOs.Account;
 using TemplateApp.Domain.Models;
 
-namespace TemplateApp.Application.Services.Account
+namespace TemplateApp.Application.Services.Auth
 {
-    public partial class AccountBaseServices
+    public partial class AuthBaseServices
     {
         public async Task<Result<AccountDTO>> RegisterAsync(AccountDTO request)
         {

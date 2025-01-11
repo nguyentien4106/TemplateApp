@@ -1,15 +1,7 @@
 import {
-    IconBarrierBlock,
-    IconBug,
-    IconError404,
     IconLayoutDashboard,
-    IconLock,
-    IconLockAccess,
-    IconServerOff,
     IconSettings,
-    IconUserOff,
   } from '@tabler/icons-react'
-  import { AudioWaveform, Command, GalleryVerticalEnd } from 'lucide-react'
   import { type SidebarData } from '../types/layout/common'
   
   export const sidebarData: SidebarData = {

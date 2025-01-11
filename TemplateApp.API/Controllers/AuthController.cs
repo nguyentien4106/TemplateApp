@@ -1,14 +1,14 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using TemplateApp.Application.Services.Account;
 using TemplateApp.Domain.DTOs.Account;
 using TemplateApp.Domain.Models;
+using AuthBaseServices = TemplateApp.Application.Services.Auth.AuthBaseServices;
 
 namespace TemplateApp.API.Controllers
 {
     [Route("api/[controller]/[action]")]
     [ApiController]
-    public class AccountController(AccountBaseServices services) : ControllerBase
+    public class AuthController(AuthBaseServices services) : ControllerBase
     {
         [HttpPost]
         public async Task<Result<AccountDTO>> Register([FromBody] AccountDTO account)

@@ -10,9 +10,9 @@ using TemplateApp.Domain.Models;
 using TemplateApp.Infrastructure;
 using TemplateApp.Infrastructure.Constants;
 
-namespace TemplateApp.Application.Services.Account
+namespace TemplateApp.Application.Services.Auth
 {
-    public partial class AccountBaseServices(
+    public partial class AuthBaseServices(
             UserManager<IdentityUser> userManager, 
             SignInManager<IdentityUser> signInManager,
             JwtSettings jwt,

@@ -5,8 +5,8 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using TemplateApp.Infrastructure.Constants;
 using System.Text;
-using TemplateApp.Application.Services.Account;
 using TemplateApp.Application.Services.EmailSender;
+using AuthBaseServices = TemplateApp.Application.Services.Auth.AuthBaseServices;
 
 namespace TemplateApp.API.Extensions
 {
@@ -89,7 +89,7 @@ namespace TemplateApp.API.Extensions
 
         public static IServiceCollection AddApplicationServices(this IServiceCollection services)
         {
-            services.AddTransient<AccountBaseServices>();
+            services.AddTransient<AuthBaseServices>();
             services.AddTransient<IEmailSender, EmailSender>();
 
             return services;
