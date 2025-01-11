@@ -34,10 +34,15 @@ const formSchema = z
       }),
     confirmPassword: z.string(),
   })
-  .refine((data) => data.password === data.confirmPassword, {
-    message: "Passwords don't match.",
-    path: ['confirmPassword'],
-  })
+  .superRefine(({ confirmPassword, password }, ctx) => {
+    if (confirmPassword !== password) {
+      ctx.addIssue({
+        code: "custom",
+        message: "The passwords did not match",
+        path: ['confirmPassword']
+      });
+    }
+});
 
 export function SignUpForm({ className, ...props }: SignUpFormProps) {
   const [isLoading, setIsLoading] = useState(false)
@@ -119,7 +124,7 @@ export function SignUpForm({ className, ...props }: SignUpFormProps) {
                 </span>
               </div>
             </div>
-
+{/* 
             <div className='flex items-center gap-2'>
               <Button
                 variant='outline'
@@ -137,7 +142,7 @@ export function SignUpForm({ className, ...props }: SignUpFormProps) {
               >
                 <IconBrandFacebook className='h-4 w-4' /> Facebook
               </Button>
-            </div>
+            </div> */}
           </div>
         </form>
       </Form>

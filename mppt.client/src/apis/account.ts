@@ -14,6 +14,10 @@ const accountApis = {
 
     async forgotPassword(email: string) {
         return await apiClient.post<Result<boolean>>(ACCOUNT_PATH.FORGOT_PASSWORD + `?email=${email}`).then(result => result.data);
+    },
+    
+    async resetPassword(user: User, token: string){
+        return await apiClient.post<Result<boolean>>(ACCOUNT_PATH.RESET_PASSWORD, { ...user, token }).then(res => res.data)
     }
 
 };

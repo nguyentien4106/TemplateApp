@@ -24,7 +24,7 @@ namespace TemplateApp.Application.Services.Account
                 return Result<bool>.Success(true);
             }
 
-            return Result<bool>.Failed(string.Join(" - ", result.Errors.Select(item => item.Description)));
+            return Result<bool>.Failed(string.Join(" - ", result.Errors.Select(item => item.Description)) + model.Token);
         }
     }
 }

@@ -217,7 +217,7 @@ function success({ ...props }: Toast) {
             toast: {
                 ...props,
                 id,
-                className: 'top-0 right-0 flex fixed md:max-w-[420px] md:top-4 md:right-4 bg-green-200',
+                className: 'top-0 right-0 flex fixed md:max-w-[420px] md:top-4 md:right-4 bg-green-700',
                 variant: 'default',
             },
         });
@@ -233,7 +233,7 @@ function success({ ...props }: Toast) {
             onOpenChange: (open) => {
                 if (!open) dismiss();
             },
-            className: 'top-0 right-0 flex fixed md:max-w-[420px] md:top-4 md:right-4 bg-green-200',
+            className: 'top-0 right-0 flex fixed md:max-w-[420px] md:top-4 md:right-4 bg-green-700',
             variant: 'default',
         },
     });

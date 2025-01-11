@@ -4,10 +4,8 @@ import {
     TabsList,
     TabsTrigger,
 } from "@/components/ui/tabs"
-
 import { RegisterForm } from "@/components/register-form"
 import { LoginForm } from "@/components/login-form"
-import { useState } from "react"
 
 export default function Authentication() {
     return (

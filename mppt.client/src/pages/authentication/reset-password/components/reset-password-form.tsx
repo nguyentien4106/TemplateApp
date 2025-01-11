@@ -2,8 +2,7 @@ import { HTMLAttributes, useState } from 'react'
 import { z } from 'zod'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Link } from 'react-router-dom'
-import { IconBrandFacebook, IconBrandGithub } from '@tabler/icons-react'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
 import {
@@ -14,8 +13,11 @@ import {
     FormLabel,
     FormMessage,
 } from '@/components/ui/form'
-import { Input } from '@/components/ui/input'
 import { PasswordInput } from '@/components/password-input'
+import { useLoading } from '@/hooks/use-loading'
+import accountApis from '@/apis/account'
+import { useToast } from '@/hooks/use-toast'
+import ErrorMessage from '@/components/error-message'
 
 type ResetPasswordFormProps = HTMLAttributes<HTMLDivElement>
 
@@ -35,13 +37,21 @@ const formSchema = z.object({
         .min(7, {
             message: 'Password must be at least 7 characters long',
         }),
-}).refine((data) => data.password === data.confirmPassword, {
-    message: "Passwords don't match",
-    path: ["confirm"],
+}).superRefine(({ confirmPassword, password }, ctx) => {
+    if (confirmPassword !== password) {
+      ctx.addIssue({
+        code: "custom",
+        message: "The passwords did not match",
+        path: ['confirmPassword']
+      });
+    }
 });
 
 export function ResetPasswordForm({ className, ...props }: ResetPasswordFormProps) {
-    const [isLoading, setIsLoading] = useState(false)
+    const loading = useLoading()
+    const [searchParams] = useSearchParams()
+    const navigate = useNavigate()
+    const { error } = useToast()
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
@@ -52,8 +62,20 @@ export function ResetPasswordForm({ className, ...props }: ResetPasswordFormProp
     })
 
     function onSubmit(data: z.infer<typeof formSchema>) {
-        setIsLoading(true)
+        loading.show("Loading...")
         // eslint-disable-next-line no-console
+        console.log('model', { email: searchParams.get('email') ?? '', password: data.password }, searchParams.get("token") ?? '')
+        accountApis.resetPassword({ email: searchParams.get('email') ?? '', password: data.password }, searchParams.get("token") ?? '').then(res => {
+            console.log(res)
+            if(!res.succeed){
+                error({
+                    description: <ErrorMessage message={res.message} />,
+                })
+                return
+            }
+            navigate("/sign-in")
+
+        }).finally(() => loading.hide())
     }
 
     return (
@@ -91,7 +113,7 @@ export function ResetPasswordForm({ className, ...props }: ResetPasswordFormProp
                                 </FormItem>
                             )}
                         />
-                        <Button className='mt-2' disabled={isLoading}>
+                        <Button className='mt-2' disabled={loading.isLoading}>
                             Update
                         </Button>
                     </div>

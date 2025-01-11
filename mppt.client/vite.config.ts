@@ -4,7 +4,7 @@ import { defineConfig } from "vite"
 import mkcert from 'vite-plugin-mkcert'
 
 export default defineConfig({
-  plugins: [react(), mkcert()],
+  plugins: [react()],
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),

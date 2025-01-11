@@ -68,7 +68,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
             useAccountStore.getState().auth.setAccessToken(res.data.accessToken)
             useAccountStore.getState().auth.setRefreshToken(res.data.refreshToken)
             useAccountStore.getState().auth.setUser(jwtDecode<AuthUser>(res.data.accessToken))
-            // navigate("/")
+            navigate("/dashboard")
         })
     }
 
@@ -113,9 +113,6 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
                         />
                         <Button className='mt-2' disabled={loading.isLoading}>
                             Login
-                        </Button>
-                        <Button className='mt-2' disabled={loading.isLoading} variant={'outline'}>
-                            <Link to={'/sign-up'}>Sign Up</Link>
                         </Button>
                         <div className='relative my-2'>
                             <div className='absolute inset-0 flex items-center'>

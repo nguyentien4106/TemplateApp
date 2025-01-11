@@ -3,6 +3,7 @@ export interface User {
     password: string
 }
 
+
 export interface AuthToken {
     accessToken: string,
     refreshToken: string

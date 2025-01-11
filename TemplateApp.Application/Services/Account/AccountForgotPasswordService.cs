@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.WebUtilities;
 using TemplateApp.Domain.Models;
 
 namespace TemplateApp.Application.Services.Account
@@ -15,20 +16,25 @@ namespace TemplateApp.Application.Services.Account
             var user = await userManager.FindByEmailAsync(email);
             if (user == null)
             {
-                return new Result<bool>().SetError("The user with email given was not found!", new());
+                return new Result<bool>().SetError("The user with email given was not found!", false);
             }
-
             var token = await userManager.GeneratePasswordResetTokenAsync(user);
+            var url = $"{jwt.Audience}/reset-password";
+            var param = new Dictionary<string, string>()
+            {
+                { "token", token },
+                { "email", email },
+            };
 
+            var resetLink = new Uri(QueryHelpers.AddQueryString(url, param));
             // Build the reset link
-            var resetLink = $"{jwt.Audience}/reset-password?email={email}&token={Uri.EscapeDataString(token)}";
             var emailHtml = File.ReadAllText(Path.Join(environment.ContentRootPath, "Templates", "reset-password.html"));
             var e = new Email
             {
                 To = user.Email,
                 ToName = user.UserName,
                 Subject = "Reset your password!",
-                BodyHtml = emailHtml.Replace("[LINK]", resetLink).Replace("[EMAIL]", user.Email),
+                BodyHtml = emailHtml.Replace("[LINK]", resetLink.ToString()).Replace("[EMAIL]", user.Email),
                 //Body = "Hello World!",
             };
 

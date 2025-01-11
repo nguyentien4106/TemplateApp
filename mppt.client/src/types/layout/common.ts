@@ -43,7 +43,7 @@ interface SidebarData {
 
 interface AuthUser {
     aud: string
-    exp: number,
+    exp: number
     id: string
     iss: string
     userName: string

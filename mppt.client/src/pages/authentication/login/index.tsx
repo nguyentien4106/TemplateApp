@@ -1,6 +1,7 @@
 import { Card } from '@/components/ui/card'
 import AuthLayout from '../auth-layout'
 import { UserAuthForm } from './components/user-auth-form'
+import { Link } from 'react-router-dom'
 
 export default function SignIn() {
   return (
@@ -10,7 +11,13 @@ export default function SignIn() {
           <h1 className='text-2xl font-semibold tracking-tight'>Login</h1>
           <p className='text-sm text-muted-foreground'>
             Enter your email and password below <br />
-            to log into your account
+            Dont have an account ?{' '}
+            <Link
+              to='/sign-up'
+              className='underline underline-offset-4 hover:text-primary'
+            >
+              Sign Up
+            </Link>
           </p>
         </div>
         <UserAuthForm />

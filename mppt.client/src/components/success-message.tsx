@@ -1,5 +1,5 @@
 import React from 'react';
-import { MailCheck } from 'lucide-react';
+import { Circle, CircleCheck, MailCheck } from 'lucide-react';
 
 interface SuccessMessageProps {
   message: string;
@@ -8,9 +8,9 @@ interface SuccessMessageProps {
 
 const SuccessMessage: React.FC<SuccessMessageProps> = ({ message, className }) => {
   return (
-    <div className='flex bg-green-700'>
-        <MailCheck size={64} color='white'></MailCheck>
-        <div className={`text-zinc-100 font-bold p-2 rounded bg-green-700 ${className || ''}`}>
+    <div className='flex bg-green-700 gap-2'>
+        <CircleCheck size={64} color='white' />
+        <div className={`text-zinc-100 font-bold p-2 rounded bg-green-700 content-center ${className || ''}`}>
             {message}
         </div>
     </div>

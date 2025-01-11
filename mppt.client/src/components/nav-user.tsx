@@ -2,11 +2,8 @@
 
 import {
     BadgeCheck,
-    Bell,
     ChevronsUpDown,
-    CreditCard,
     LogOut,
-    Sparkles,
 } from "lucide-react"
 
 import {
@@ -31,19 +28,25 @@ import {
 } from "@/components/ui/sidebar"
 import accountApis from "@/apis/account"
 import { useLoading } from "@/hooks/use-loading"
-import Cookies from "js-cookie"
-import { COOKIE_REFRESH_TOKEN_KEY, COOKIE_TOKEN_KEY } from "@/constants/cookie"
 import { useNavigate } from "react-router-dom"
 import { useToast } from "@/hooks/use-toast"
-import { AuthUser } from "@/types/layout/common"
 import { useAccountStore } from "@/stores/accountStore"
+import { jwtDecode } from "jwt-decode"
+import Cookies from "js-cookie"
+import { COOKIE_TOKEN_KEY } from "@/constants/cookie"
+import { AuthUser } from "@/types/layout/common"
 
 export function NavUser() {
     const { isMobile } = useSidebar()
     const loading = useLoading()
     const navigate = useNavigate()
     const { error } = useToast()
-    const user = useAccountStore.getState().auth.user
+    const token = Cookies.get(COOKIE_TOKEN_KEY)
+    let user = {}
+
+    if(token) {
+        user = jwtDecode<AuthUser>(token)
+    }
 
     const logout = () => {
         loading.show("Loading")
@@ -72,7 +75,7 @@ export function NavUser() {
                         >
                             <Avatar className="h-8 w-8 rounded-lg">
                                 {/* <AvatarImage src={user.avatar} alt={user.name} /> */}
-                                <AvatarFallback className="rounded-lg">CN</AvatarFallback>
+                                <AvatarFallback className="rounded-lg">User</AvatarFallback>
                             </Avatar>
                             <div className="grid flex-1 text-left text-sm leading-tight">
                                 <span className="truncate font-semibold">{user?.userName}</span>
@@ -100,26 +103,26 @@ export function NavUser() {
                             </div>
                         </DropdownMenuLabel>
                         <DropdownMenuSeparator />
-                        <DropdownMenuGroup>
+                        {/* <DropdownMenuGroup>
                             <DropdownMenuItem>
                                 <Sparkles />
                                 Upgrade to Pro
                             </DropdownMenuItem>
-                        </DropdownMenuGroup>
-                        <DropdownMenuSeparator />
+                        </DropdownMenuGroup> 
+                        <DropdownMenuSeparator /> */}
                         <DropdownMenuGroup>
                             <DropdownMenuItem>
                                 <BadgeCheck />
                                 Account
                             </DropdownMenuItem>
-                            <DropdownMenuItem>
+                            {/* <DropdownMenuItem>
                                 <CreditCard />
                                 Billing
                             </DropdownMenuItem>
                             <DropdownMenuItem>
                                 <Bell />
                                 Notifications
-                            </DropdownMenuItem>
+                            </DropdownMenuItem> */}
                         </DropdownMenuGroup>
                         <DropdownMenuSeparator />
                         <DropdownMenuItem onClick={logout}>
