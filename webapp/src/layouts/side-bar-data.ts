@@ -1,6 +1,7 @@
 import {
     IconLayoutDashboard,
     IconSettings,
+    IconLockAccess
   } from '@tabler/icons-react'
   import { type SidebarData } from '../types/layout/common'
   
@@ -59,9 +60,15 @@ import {
           // },
         ],
       },
+      
       {
         title: 'Pages',
         items: [
+          {
+            title: "Products",
+            icon: IconLockAccess,
+            url: '/products'
+          },
           // {
           //   title: 'Auth',
           //   icon: IconLockAccess,
