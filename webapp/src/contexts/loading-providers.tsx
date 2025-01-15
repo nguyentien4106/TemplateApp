@@ -22,7 +22,7 @@ export const LoadingProvider: React.FC<LoadingContextProvider> = ({
     const [LoadingMessage, setLoadingMessage] = useState<string | undefined>();
 
     const contextValue: LoadingContext = {
-        show: (message = "") => {
+        show: (message = "Loading...") => {
             setLoadingMessage(message);
             setIsVisible(true);
         },

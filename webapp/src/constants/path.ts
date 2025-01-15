@@ -3,5 +3,7 @@ export const AUTH_PATH = {
     REGISTER: 'Auth/Register',
     FORGOT_PASSWORD: 'Auth/ForgotPassword',
     RESET_PASSWORD: 'Auth/ResetPassword',
-    LOGOUT: 'Auth/Logout'
+    LOGOUT: 'Auth/Logout',
+    REFRESH_TOKEN: 'Auth/RefreshToken',
+    PROFILE: 'Auth/Profile'
 }

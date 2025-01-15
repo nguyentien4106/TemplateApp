@@ -18,8 +18,15 @@ const accountApis = {
     
     async resetPassword(user: User, token: string){
         return await apiClient.post<Result<boolean>>(AUTH_PATH.RESET_PASSWORD, { ...user, token }).then(res => res.data)
-    }
+    },
 
+    async refreshToken(params: AuthToken){
+        return await apiClient.post<Result<AuthToken>>(AUTH_PATH.REFRESH_TOKEN, { ...params }).then(res => res.data)
+    },
+
+    async register(params: User){
+        return apiClient.post<Result<AuthToken>>(AUTH_PATH.REGISTER, { ...params }).then(result => result.data);
+    }
 };
 
 export default accountApis;

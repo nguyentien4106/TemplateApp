@@ -1,4 +1,6 @@
-﻿namespace TemplateApp.Domain.Models
+﻿using TemplateApp.Domain.Constants;
+
+namespace TemplateApp.Domain.Models
 {
     public class Result<T> 
     {
@@ -6,7 +8,7 @@
 
         public bool Succeed { get; set; } = true;
 
-        public T Data { get; set; }
+        public T? Data { get; set; }
 
         public Result<T> SetSuccess(T data)
         {
@@ -23,13 +25,13 @@
             return this;
         }
 
-        public static Result<T> NotFound(string message = "Not found.") 
+        public static Result<T> NotFound(string? message = "") 
         {
             return new Result<T>() 
             {
                 Data = default,
                 Succeed = false,
-                Message = message
+                Message = string.IsNullOrEmpty(message) ? ErrorMessages.NotFound : message
             };
         }
 

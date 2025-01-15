@@ -10,7 +10,7 @@ namespace TemplateApp.Application.Services.Auth
             var user = await userManager.FindByEmailAsync(model.Email);
             if (user == null) 
             {
-                return Result<bool>.NotFound();
+                return Result<bool>.NotFound("The user with email given not found in system.");
             }
             var result = await userManager.ResetPasswordAsync(user, model.Token, model.Password);
 

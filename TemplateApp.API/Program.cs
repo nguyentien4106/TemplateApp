@@ -1,4 +1,5 @@
-using TemplateApp.API.Extensions;
+﻿using TemplateApp.API.Extensions;
+using TemplateApp.API.Controllers;
 
 var builder = WebApplication.CreateBuilder(args);
 

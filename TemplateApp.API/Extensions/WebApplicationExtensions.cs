@@ -16,13 +16,16 @@ namespace TemplateApp.API.Extensions
                 initialiser.SeedAsync().Wait();
             }
 
+            app.UseCors("clientPolicy");
+
             app.UseHttpsRedirection();
+
+            app.UseAuthentication();
 
             app.UseAuthorization();
 
             app.MapControllers();
 
-            app.UseCors("clientPolicy");
 
             return app;
         }
