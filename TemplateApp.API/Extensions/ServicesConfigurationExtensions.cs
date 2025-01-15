@@ -9,6 +9,7 @@ using TemplateApp.Application.Services.EmailSender;
 using AuthBaseServices = TemplateApp.Application.Services.Auth.AuthBaseServices;
 using Microsoft.OpenApi.Models;
 using Microsoft.Extensions.DependencyInjection;
+using TemplateApp.Application.Services.Products;
 
 namespace TemplateApp.API.Extensions
 {
@@ -119,6 +120,7 @@ namespace TemplateApp.API.Extensions
         {
             services.AddTransient<AuthBaseServices>();
             services.AddTransient<IEmailSender, EmailSender>();
+            services.AddTransient<IProductService, ProductService>();
 
             return services;
         }
