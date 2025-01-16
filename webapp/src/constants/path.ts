@@ -7,3 +7,11 @@ export const AUTH_PATH = {
     REFRESH_TOKEN: 'Auth/RefreshToken',
     PROFILE: 'Auth/Profile'
 }
+
+export const PRODUCT_PATH = {
+    GET_ALL: 'Products',
+    GET_BY_ID: 'Products/',
+    INSERT: 'Products',
+    UPDATE: 'Products/',
+    DELETE: 'Products/'
+}

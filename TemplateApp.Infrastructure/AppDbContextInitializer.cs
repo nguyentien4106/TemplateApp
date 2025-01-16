@@ -7,6 +7,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using TemplateApp.Infrastructure.Entities;
 
 namespace TemplateApp.Infrastructure
 {
@@ -38,6 +39,7 @@ namespace TemplateApp.Infrastructure
             try
             {
                 await TrySeedAsync();
+                await TrySeedProductsAsync();
             }
             catch (Exception ex)
             {
@@ -97,6 +99,41 @@ namespace TemplateApp.Infrastructure
                     await _userManager.AddToRolesAsync(user, new[] { userRole.Name });
                 }
             }
+        }
+    
+        public async Task TrySeedProductsAsync()
+        {
+            if(_context.Products.Count() != 0)
+            {
+                return;
+            }
+
+            var products = GenerateRandomProducts(10);
+            await _context.Products.AddRangeAsync(products);
+            await _context.SaveChangesAsync();
+        }
+
+        private static List<Product> GenerateRandomProducts(int count)
+        {
+            var random = new Random();
+            var products = new List<Product>();
+
+            for (int i = 0; i < count; i++)
+            {
+                var product = new Product
+                {
+                    Id = Guid.NewGuid(),
+                    Name = $"Product {i + 1}",
+                    Description = random.Next(0, 2) == 0 ? $"Description for Product {i + 1}" : null,
+                    Price = (decimal)(random.NextDouble() * 1000), // Random price between 0 and 1000
+                    IsActive = random.Next(0, 2) == 0, // Randomly true or false
+                    CreatedDate = DateTime.UtcNow.AddDays(-random.Next(0, 365)) // Random date within the past year
+                };
+
+                products.Add(product);
+            }
+
+            return products;
         }
     }
 }

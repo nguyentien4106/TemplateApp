@@ -54,5 +54,6 @@ namespace TemplateApp.Domain.Models
                 Message = message
             };
         }
+
     }
 }

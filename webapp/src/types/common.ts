@@ -3,3 +3,8 @@ export interface Result<T> {
     succeed: boolean,
     data: T
 }
+
+export interface Pagination {
+    pageSize: number,
+    pageIndex: number,
+}

@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 using TemplateApp.Domain.Models;
+using TemplateApp.Domain.Models.Result;
 using TemplateApp.Infrastructure.Entities;
 
 namespace TemplateApp.Infrastructure.Services
@@ -106,6 +107,58 @@ namespace TemplateApp.Infrastructure.Services
         public async Task Commit()
         {
             await context.SaveChangesAsync();
+        }
+
+        public async Task<Result<PaginationResultModel<TEntity>>> GetAllAsync(
+            Pagination pagination, 
+            Expression<Func<TEntity, bool>>? filter = null, 
+            Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? orderBy = null, 
+            string[]? includeProperties = null)
+        {
+            IQueryable<TEntity> query = dbSet;
+
+            // Apply filtering if provided
+            if (filter != null)
+            {
+                query = query.Where(filter);
+            }
+
+            // Apply include properties if provided
+            if (includeProperties != null)
+            {
+                foreach (var includeProperty in includeProperties)
+                {
+                    query = query.Include(includeProperty);
+                }
+            }
+
+            // Apply ordering if provided
+            if (orderBy != null)
+            {
+                query = orderBy(query);
+            }
+
+            // Get the total count of items before pagination
+            int totalCount = await query.CountAsync();
+
+            // Apply pagination (skip and take)
+            query = query.Skip((pagination.PageIndex - 1) * pagination.PageSize)
+                         .Take(pagination.PageSize);
+
+            // Fetch paginated data
+            var items = await query.ToListAsync();
+
+            // Create the result model
+            var paginationResult = new PaginationResultModel<TEntity>
+            {
+                Items = items,
+                Total = totalCount,
+                PageSize = pagination.PageSize,
+                PageIndex = pagination.PageIndex,
+            };
+
+            // Return the result
+            return new Result<PaginationResultModel<TEntity>>().SetSuccess(paginationResult);
         }
     }
 }

@@ -44,8 +44,7 @@ namespace TemplateApp.API.Extensions
                 .AddUserManager<UserManager<IdentityUser>>()
                 .AddEntityFrameworkStores<AppDbContext>()
                 .AddTokenProvider<DataProtectorTokenProvider<IdentityUser>>(jwtSettings.RefreshTokenProvider)
-                .AddTokenProvider<DataProtectorTokenProvider<IdentityUser>>("Default")
-                ;
+                .AddTokenProvider<DataProtectorTokenProvider<IdentityUser>>("Default");
 
             services.Configure<DataProtectionTokenProviderOptions>(options =>
             {
@@ -83,6 +82,7 @@ namespace TemplateApp.API.Extensions
                     .AllowCredentials();
                 });
             });
+
             services.AddSwaggerGen(config =>
             {
                 config.SwaggerDoc("v1", new OpenApiInfo { Title = "TemplateApp API", Version = "v1" });
