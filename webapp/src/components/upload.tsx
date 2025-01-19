@@ -38,6 +38,18 @@ export default function Upload({ files, setFiles }: UploadProps) {
                     </div>
 
                 </div>
+                {files.map((file, index) => (
+                    <div key={index}>
+                        <div className="overflow-auto rounded-md">
+                            <img
+                                src={URL.createObjectURL(file)}
+                                className="aspect-[3/4] object-cover"
+                                width={80}
+                                height={120}
+                            />
+                        </div>
+                    </div>
+                ))}
                 <ScrollArea className=" whitespace-nowrap rounded-md border">
                     <div className="flex max-w-16 space-x-4 p-4">
                         {files.map((file, index) => (
@@ -46,8 +58,8 @@ export default function Upload({ files, setFiles }: UploadProps) {
                                     <img
                                         src={URL.createObjectURL(file)}
                                         className="aspect-[3/4] h-fit w-fit object-cover"
-                                        width={300}
-                                        height={400}
+                                        width={80}
+                                        height={120}
                                     />
                                 </div>
                             </div>
@@ -55,61 +67,6 @@ export default function Upload({ files, setFiles }: UploadProps) {
                     </div>
                     <ScrollBar orientation="horizontal" />
                 </ScrollArea>
-                {/* <ScrollArea className="w-96 whitespace-nowrap rounded-md border">
-                    {files?.map((file, index) => (
-                        <div className="relative" key={index} style={{ width: 80 }}>
-                            <img
-                                src={URL.createObjectURL(file)}
-                                width={80}
-                                height={80}
-                                className="rounded"
-                                style={{ aspectRatio: "40/40", objectFit: "cover" }}
-                            />
-                            <Button
-                                variant="outline"
-                                size="sm"
-                                style={{ height: 30, width: 30 }}
-                                onClick={() => removeFile(index)}
-                                className="text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-50 absolute top-0 right-0"
-                            >
-                                <XIcon className="h-5 w-5 color-white-200" />
-                            </Button>
-                        </div>
-                    ))}
-                    <ScrollBar orientation="horizontal" />
-
-                </ScrollArea> */}
-                {/* <div className="grid gap-2">
-                    {files?.map((file, index) => (
-                        <div
-                            key={index}
-                            className="flex items-center justify-between rounded-md bg-gray-100 px-4 py-3 dark:bg-gray-800"
-                        >
-                            <div className="flex items-center gap-3">
-                                <img
-                                    src={URL.createObjectURL(file)}
-                                    alt={file.name}
-                                    width={40}
-                                    height={40}
-                                    className="rounded"
-                                    style={{ aspectRatio: "40/40", objectFit: "cover" }}
-                                />
-                                <div>
-                                    <div className="font-medium text-gray-900 dark:text-gray-50">{file.name}</div>
-                                    <div className="text-sm text-gray-500 dark:text-gray-400">{file.size}</div>
-                                </div>
-                            </div>
-                            <Button
-                                variant="ghost"
-                                size="icon"
-                                className="text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-50"
-                            >
-                                <XIcon className="h-5 w-5" />
-                                <span className="sr-only">Remove {file.name}</span>
-                            </Button>
-                        </div>
-                    ))}
-                </div> */}
             </div>
         </div>
     )

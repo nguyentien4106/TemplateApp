@@ -10,5 +10,9 @@ export const productApis = {
 
     async delete(id: string){
         return await apiClient.delete<Result<Product>>(PRODUCT_PATH.DELETE + id).then(res => res.data)
+    },
+    
+    async add(product: Product){
+        return await apiClient.post<Result<Product>>(PRODUCT_PATH.INSERT, {...product}).then(res => res.data)
     }
 }

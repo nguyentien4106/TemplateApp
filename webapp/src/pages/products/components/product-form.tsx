@@ -17,7 +17,7 @@ import {
 import { Input } from '@/components/ui/input'
 import { PasswordInput } from '@/components/password-input'
 import accountApis from '@/apis/account'
-import { useToast } from '@/hooks/use-toast'
+import { toast, useToast } from '@/hooks/use-toast'
 import ErrorMessage from '@/components/error-message'
 import { useLoading } from '@/hooks/use-loading'
 import { jwtDecode } from 'jwt-decode';
@@ -25,8 +25,16 @@ import { useAccountStore } from '@/stores/accountStore'
 import { AuthUser } from '@/types/layout/common'
 import { Textarea } from '@/components/ui/textarea'
 import Upload from '@/components/upload'
+import { productApis } from '@/apis/product'
+import { Checkbox } from '@/components/ui/checkbox'
+import SuccessMessage from '@/components/success-message'
+import { Product } from '@/types/product'
+import axios from 'axios'
+import { PRODUCT_PATH } from '@/constants/path'
 
-type ProductFormProps = HTMLAttributes<HTMLDivElement>
+type ProductFormProps = HTMLAttributes<HTMLDivElement> & {
+    setProducts: React.Dispatch<React.SetStateAction<Product[]>>;
+}
 
 const formSchema = z.object({
     name: z
@@ -42,8 +50,8 @@ const formSchema = z.object({
     isActive: z.boolean().default(true)
 })
 
-export function ProductForm({ className, ...props }: ProductFormProps) {
-    const { error } = useToast()
+export function ProductForm({ className, setProducts, closeRef, ...props }: ProductFormProps) {
+    const toast = useToast()
     const [files, setFiles] = useState<File[]>([])
     const loading = useLoading()
     const form = useForm<z.infer<typeof formSchema>>({
@@ -57,7 +65,30 @@ export function ProductForm({ className, ...props }: ProductFormProps) {
     })
 
     function onSubmit(data: z.infer<typeof formSchema>) {
-        
+        loading.show()
+        const params = { ...data, createdDate: new Date()}
+        productApis.add(params).then(res => {
+            closeRef.current.click();
+            if(res.succeed){
+                toast.success({
+                    description: <SuccessMessage message='Add new product successfully.'></SuccessMessage>
+                })
+
+                setProducts(prev => [res.data, ...prev])
+                return
+            }
+
+            toast.error({
+                description: <ErrorMessage message={res.message}/>
+            })
+        }).finally(() => {
+            loading.hide()
+            
+        })
+        // console.log(params)
+        // axios.post('http://localhost:5087/api/'+ PRODUCT_PATH.INSERT, params, {headers: {
+        //     'Content-Type': 'application/json'
+        //   }}).then(res => console.log(res))
     }
 
     return (
@@ -102,7 +133,7 @@ export function ProductForm({ className, ...props }: ProductFormProps) {
                                 </FormItem>
                             )}
                         />
-                         <FormField
+                        <FormField
                             control={form.control}
                             name='description'
                             render={({ field }) => (
@@ -110,6 +141,19 @@ export function ProductForm({ className, ...props }: ProductFormProps) {
                                     <FormLabel>Description</FormLabel>
                                     <FormControl>
                                         <Textarea placeholder='Description' {...field} />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                        <FormField
+                            control={form.control}
+                            name='isActive'
+                            render={({ field }) => (
+                                <FormItem className='space-y-1'>
+                                    <FormLabel>Is Active ? </FormLabel>
+                                    <FormControl>
+                                        <Checkbox />
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>

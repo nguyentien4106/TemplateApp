@@ -13,9 +13,7 @@ const apiConfig: AxiosRequestConfig = {
     baseURL: await getAPIUrl(),
     headers: {
         'Content-Type': 'application/json',
-        Accept: 'application/json'
-    },
-    responseType: 'json',
+    }
 }
 
 const apiClient = axios.create(apiConfig);

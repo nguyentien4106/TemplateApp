@@ -50,7 +50,7 @@ export default function DemoPage() {
                 <SheetCustomization
                     title="Add New Product"
                     description="Create a new product. Click save when you're done."
-                    content={<ProductForm />}
+                    content={<ProductForm setProducts={setProducts}/>}
                 >
                     <Button>Add New</Button>
                 </SheetCustomization>
