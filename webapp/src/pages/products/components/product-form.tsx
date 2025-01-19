@@ -159,7 +159,7 @@ export function ProductForm({ className, setProducts, closeRef, ...props }: Prod
                                 </FormItem>
                             )}
                         />
-                        <Button className='mt-2' disabled={loading.isLoading}>
+                        <Button className='mt-2' disabled={loading.isLoading} hidden={true}>
                             Create
                         </Button>
                     </div>

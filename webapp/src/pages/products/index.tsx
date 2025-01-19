@@ -1,7 +1,7 @@
 import { Product } from "@/types/product";
 import { DataTable } from "@/components/data-table";
 import { getProductColumns } from "./columns";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { productApis } from "@/apis/product";
 import { useToast } from "@/hooks/use-toast";
 import ErrorMessage from "@/components/error-message";
@@ -44,13 +44,16 @@ export default function DemoPage() {
 
     const columns = useMemo(() => getProductColumns({ onDelete, onEdit }), [])
 
+    const closeRef = useRef()
+
     return (
         <div className="container mx-auto py-10 space-y-4">
             <div className="flex justify-end">
                 <SheetCustomization
                     title="Add New Product"
                     description="Create a new product. Click save when you're done."
-                    content={<ProductForm setProducts={setProducts}/>}
+                    content={<ProductForm setProducts={setProducts} closeRef={closeRef}/>}
+                    closeRef={closeRef}
                 >
                     <Button>Add New</Button>
                 </SheetCustomization>

@@ -28,15 +28,15 @@ export function SheetCustomization({
   return (
     <Sheet>
       <SheetTrigger asChild>{children}</SheetTrigger>
-      <SheetContent>
+      <SheetContent className="overflow-auto">
         <SheetHeader>
           <SheetTitle>{title}</SheetTitle>
           <SheetDescription>{description}</SheetDescription>
         </SheetHeader>
         {content}
-        <SheetFooter>
-          <SheetClose asChild>
-            <Button type="submit" ref={closeRef}>Save changes</Button>
+        <SheetFooter hidden>
+          <SheetClose asChild >
+            <Button hidden={true} type="submit" ref={closeRef}>Save changes</Button>
           </SheetClose>
         </SheetFooter>
       </SheetContent>
